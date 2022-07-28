@@ -37,8 +37,32 @@ const MORSE_TABLE = {
     '-----':  '0',
 };
 
-function decode(expr) {
-    // write your solution here
+function decode(expr) { 
+    
+    function wordDecoder(el) {
+      
+        let unCut;
+        let letter;
+        let letters = [];     
+      
+          for (let i = 0; i < el.length; i += 10) { 
+            unCut = el.slice(i, i + 10);
+            letter = unCut.slice(unCut.indexOf(1)).replace(/10/g, `.`).replace(/11/g, `-`);
+            letters.push(letter);
+          } //делаем слова в букв азбуки Морзе
+        
+          for (let i = 0; i < letters.length; i++) {
+            if (letters[i] in MORSE_TABLE) {letters[i] = MORSE_TABLE[letters[i]]} 
+          } //превращаем в обычные буквы
+          
+        el = letters.join('');
+        return el; //делаем из букв слова      
+        }
+//функция для приведения полученных после разделения через ****** к буквенному виду
+    
+    
+    return expr.split(`**********`).map(item => wordDecoder(item)).join(' ');
+//разделяем строку на слова, прогоняем через декодирующую функцию, объединяем слова в строку
 }
 
 module.exports = {
